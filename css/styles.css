@@ -119,10 +119,10 @@ a { color: inherit; text-decoration: none; }
   .cards { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
   /* Prevent hero image cropping on mobile */
-  .hero { min-height: 60vh; }
-  .hero-media { position: absolute; }
-  .hero-media img { height: 100%; object-fit: cover; }
-  .hero-overlay { display: block; }
+  .hero { min-height: auto; }
+  .hero-media { position: relative; }
+  .hero-media img { height: auto; object-fit: contain; }
+  .hero-overlay { display: none; }
   .hero .cta-hero { bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 3; }
 }
 @media (max-width: 420px){
