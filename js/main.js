@@ -43,7 +43,7 @@ if (backToTop) {
   const errorBox = document.getElementById('liveError');
   const ytLink = document.getElementById('ytLiveLink');
   const CHANNEL_ID = "UCNGE1mV2DBLjbryJSU1c0NA"; // your channel id
-  const API_KEY = "AIzaSyBD838bAxqHF1Fh_X_PbvkxZtJgdEcsvYQ";
+  const API_KEY = 'AIzaSyA4TC8cZV34hTcJVPSPcCE0UqRodqKGrLc';
 
   async function getLiveVideoId() {
     const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${API_KEY}`);
