@@ -111,3 +111,66 @@ async function loadVideo(){
 
 loadVideo();
 setInterval(loadVideo, 2 * 60 * 1000);
+
+// ----------------- LIVE PLAYER QUICK ACTIONS -----------------
+const btnDirect = document.getElementById('tryDirect');
+const btnChannel = document.getElementById('tryChannel');
+if (btnDirect) {
+  btnDirect.addEventListener('click', async () => {
+    const manual = prompt('Enter YouTube video ID (the part after v=)');
+    if (manual && manual.trim()) {
+      setVideo(manual.trim());
+      if (errorBox) errorBox.hidden = true;
+    } else {
+      const latest = await getLatestVideoId().catch(() => null);
+      if (latest) {
+        setVideo(latest);
+        if (errorBox) errorBox.hidden = true;
+      }
+    }
+  });
+}
+if (btnChannel && frame) {
+  btnChannel.addEventListener('click', () => {
+    frame.src = `https://www.youtube.com/embed/live_stream?channel=${CHANNEL_ID}&autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+    if (errorBox) errorBox.hidden = true;
+  });
+}
+
+// ----------------- DIGITAL PRASAD FORM -----------------
+const prasadForm = document.getElementById('prasadForm');
+const thankYou = document.getElementById('thankYou');
+if (prasadForm) {
+  prasadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name');
+    const prayer = document.getElementById('prayer');
+    const nm = name && name.value.trim();
+    const pr = prayer && prayer.value.trim();
+    if (!nm || !pr) return;
+    try {
+      const entries = JSON.parse(localStorage.getItem('prasad_offers') || '[]');
+      entries.push({ n: nm, p: pr, t: Date.now() });
+      localStorage.setItem('prasad_offers', JSON.stringify(entries));
+    } catch {}
+    prasadForm.reset();
+    if (thankYou) {
+      thankYou.classList.remove('hidden');
+      setTimeout(() => thankYou.classList.add('hidden'), 4000);
+    }
+  });
+}
+
+// ----------------- FADE IN ON VIEW -----------------
+const toReveal = document.querySelectorAll('.fade-in, .aarti-card, .place-card, .section');
+if ('IntersectionObserver' in window && toReveal.length) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((ent) => {
+      if (ent.isIntersecting) {
+        ent.target.classList.add('in-view');
+        io.unobserve(ent.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  toReveal.forEach(el => io.observe(el));
+}
